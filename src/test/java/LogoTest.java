@@ -4,10 +4,8 @@ import org.junit.Test;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
-
 import java.time.Duration;
 import java.util.ArrayList;
-
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
@@ -25,7 +23,7 @@ public class LogoTest {
 
     public void conversionInStartPage() {
 
-        driver.get("https://qa-scooter.praktikum-services.ru/order");
+        driver.get(Constants.NOT_BASE_URL);
 
         Logo logo = new Logo(driver);
         logo.clickLogoScooter();
@@ -37,7 +35,7 @@ public class LogoTest {
     @Test
     public void conversionInYandexPage() {
 
-        driver.get("https://qa-scooter.praktikum-services.ru");
+        driver.get(Constants.BASE_URL);
 
         Logo logo = new Logo(driver);
         logo.clickLogoYandex();
@@ -45,9 +43,8 @@ public class LogoTest {
         ArrayList<String> tabs = new ArrayList<String> (driver.getWindowHandles());
         driver.switchTo().window(tabs.get(1));
         String currentUrl = driver.getCurrentUrl();
-        assertEquals("Открылась страница отличная от главной страницы Яндекса","https://ya.ru",currentUrl);
+        assertEquals("Открылась страница отличная от главной страницы Яндекса",Constants.PAGE_YA_RU,currentUrl);
     }
-
 
     @After
     public void teardown() {

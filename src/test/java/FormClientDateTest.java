@@ -1,78 +1,65 @@
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.openqa.selenium.By;
+import org.junit.runner.RunWith;
+import org.junit.runners.Parameterized;
 import org.openqa.selenium.WebDriver;
 
+@RunWith(Parameterized.class)
 
 public class FormClientDateTest {
     private WebDriver driver;
-    StartPage startPage = new StartPage();
+    public final String name;
+    public final String surname;
+    public final String address;
+    public final int indMetro;
+    public final String phone;
+
+    public FormClientDateTest (String name, String surname, String address, int indMetro, String phone) {
+        this.name = name;
+        this.surname = surname;
+        this.address = address;
+        this.indMetro = indMetro;
+        this.phone = phone;
+    }
+
+    @Parameterized.Parameters(name = "id accordion {0}, answer {1} ")
+    public static Object[][] getTextAnswer() {
+        return new Object[][]{
+                {"Ирина", "Иванова", "Москва,Мира,1", 7, "89992223344"},
+                {"Иван", "Петров", "Советская, 28", 18, "+73334445566"}
+        };
+    }
 
     @Before
     public void initDriver() {
+        StartPage startPage = new StartPage();
         startPage.initDriver();
         driver = startPage.getDriver();
+        driver.get(Constants.BASE_URL);
+        startPage.closeCookieMessage();
     }
 
     @Test
 
-    public void order1ScooterTest() {
-
-        driver.get("https://qa-scooter.praktikum-services.ru/");
-
-        driver.findElement(By.id("rcc-confirm-button")).click(); //Закрытие сообщения Куки
-
-        Elements buttonOrder = new Elements(driver);
+    public void orderScooterSheSmashTest() {
+        ButtonOrder buttonOrder = new ButtonOrder(driver);
         buttonOrder.clickOrderHeader();
 
         FormClientData formClientData = new FormClientData(driver);
-        // formClientData.formClientName("Ирина");
-        formClientData.enterDataClientInForm("Ирина", "Иванова", "Москва,Мира,1", 7, "89992223344");
+        formClientData.enterDataClientInForm(name,surname,address,indMetro,phone);
 
         formClientData.clickButtonOnwards();
-        formClientData.enterDataOrderInForm();
-
-        formClientData.clickButtonOrder();
-
-        formClientData.confirmOrder();
-    }
-
-
-    @Test
-
-    public void order2ScooterTest() {
-
-        driver.get("https://qa-scooter.praktikum-services.ru/");
-
-        driver.findElement(By.id("rcc-confirm-button")).click(); //Закрытие сообщения Куки
-
-        Elements buttonOrder = new Elements(driver);
-        buttonOrder.clickOrderHeader();
-
-        FormClientData formClientData = new FormClientData(driver);
-
-        formClientData.enterDataClientInForm("Иван", "Петров", "Советская, 28", 18, "+73334445566");
-
-        formClientData.clickButtonOnwards();
-
         formClientData.enterDataOrderInForm();
 
         formClientData.clickButtonOrder();
 
         formClientData.confirmOrder();
         formClientData.okOrder();
+        formClientData.foundBookingOrder();
     }
-
     @After
     public void teardown() {
         driver.quit();
     }
 }
-
-
-
-
-
-
-

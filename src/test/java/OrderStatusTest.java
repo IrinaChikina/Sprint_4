@@ -3,32 +3,34 @@ import org.junit.Before;
 import org.junit.Test;
 import org.openqa.selenium.WebDriver;
 
-public class OrderStatusTest {
+ public class OrderStatusTest {
     private WebDriver driver;
+    
     StartPage startPage = new StartPage();
-
-    @Before
+    
+    @Before 
     public void initDriver() {
         startPage.initDriver();
-        driver = startPage.getDriver();
+    driver = startPage.getDriver();
     }
 
     @Test
     public void notExistsNumberTest (){
-        driver.get("https://qa-scooter.praktikum-services.ru/");
+        driver.get(Constants.BASE_URL);
 
-        Elements buttonOrder = new Elements(driver);
-        buttonOrder.clickStatusOrder();
+       CheckOrderStatus checkOrderStatus = new CheckOrderStatus(driver);
+        checkOrderStatus.clickStatusOrder();
 
-        buttonOrder.inputFieldNumberOrder("123");
-        buttonOrder.clickButtonGo();
+        checkOrderStatus.inputFieldNumberOrder("123");
+        checkOrderStatus.clickButtonGo();
 
-        buttonOrder.foundImgNotFound();
+        checkOrderStatus.foundImgNotFound();
     }
 
     @After
     public void teardown() {
         driver.quit();
     }
-}
+   }
+
 

@@ -1,62 +1,68 @@
+import org.hamcrest.MatcherAssert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
-
 import java.time.Duration;
 import java.time.LocalDate;
+import static org.hamcrest.CoreMatchers.containsString;
 
 class FormClientData {
 
     private final WebDriver driver;
 
-    private final By name1 = By.xpath("//*[@id=\"root\"]/div/div[2]/div[2]/div[1]/input");
-    private final By surname1 = By.xpath("//*[@id=\"root\"]/div/div[2]/div[2]/div[2]/input");
-    private final By address1 = By.xpath("//*[@id=\"root\"]/div/div[2]/div[2]/div[3]/input");
-    private final By metro1 = By.className("select-search__value");
-    private final By phone1 = By.xpath("//*[@id=\"root\"]/div/div[2]/div[2]/div[5]/input");
+    private final By name = By.xpath("//input[@placeholder='* Имя']");
+    private final By surname = By.xpath("//input[@placeholder='* Фамилия']");;
+    private final By address = By.xpath("//input[@placeholder='* Адрес: куда привезти заказ']");
+    private final By metro = By.className("select-search__value");
+    private final By phone = By.xpath("//input[@placeholder='* Телефон: на него позвонит курьер']");
 
     private final By buttonOnwardsInForm = By.className("Button_Middle__1CSJM");
 
     private final By deliveryDate = By.className("react-datepicker__input-container");
     private final By period = By.className("Dropdown-control");
-    private final By today = By.xpath("//*[@id=\"root\"]/div/div[2]/div[2]/div[2]/div[2]/div[1]");
-    private final By buttonOrderInForm = By.xpath("//*[@id=\"root\"]/div/div[2]/div[3]/button[2]");
+    private final By today = By.xpath("//div[@class='Dropdown-menu']/div[text()='сутки']");
+    private final By buttonOrderInForm = By.xpath("//*[@id=\"root\"]//div[3]/button[2]");
 
-    private final By buttonYesConfirmOrder = By.xpath("//*[@id=\"root\"]/div/div[2]/div[5]/div[2]/button[2]");
+    private final By buttonYesConfirmOrder = By.cssSelector("div.Order_Modal__YZ-d3 > div.Order_Buttons__1xGrp > button:nth-child(2)");
+    private final By okButton = By.className("Order_ModalHeader__3FDaJ");
+    private final By bookingScooter = By.xpath("//div[2]/div[5]/div[1]");
 
     //Текст ошибки
-    protected By errorName = By.xpath("/html/body/div/div/div[2]/div[2]/div[1]/div");
-    protected By errorSurname = By.xpath("/html/body/div/div/div[2]/div[2]/div[2]/div");
-    protected By errorAddress = By.xpath("/html/body/div/div/div[2]/div[2]/div[3]/div");
+    protected By errorName = By.xpath("//div[2]/div[1]/div");
+    protected By errorSurname = By.cssSelector("div.Order_Form__17u6u > div:nth-child(2) > div");
+    protected By errorAddress = By.xpath("//div[2]/div[3]/div");
     protected By errorMetro = By.className("Order_MetroError__1BtZb");
-    protected By errorPhone = By.xpath("/html/body/div/div/div[2]/div[2]/div[5]/div");
+    protected By errorPhone =By.xpath("//div[2]/div[2]/div[5]/div");
 
     public FormClientData(WebDriver driver) {
         this.driver = driver;
     }
 
     public void formClientName(String fieldName) {
-        driver.findElement(name1).sendKeys(fieldName);
+        driver.findElement(name).sendKeys(fieldName);
     }
 
     public void formClientSurname(String fieldSurname) {
-        driver.findElement(surname1).sendKeys(fieldSurname);
+        driver.findElement(surname).sendKeys(fieldSurname);
     }
 
     public void formClientAddress(String fieldAddress) {
-        driver.findElement(address1).sendKeys(fieldAddress);
+        driver.findElement(address).sendKeys(fieldAddress);
     }
 
     public void formClientPhone(String fieldPhone) {
-        driver.findElement(phone1).sendKeys(fieldPhone);
+        driver.findElement(phone).sendKeys(fieldPhone);
     }
 
     public void choiceMetro(int id) {
-        driver.findElement(metro1).click();
+
+        By indexMetro = By.xpath(".//li[@data-index='" + id + "']");
+
+        driver.findElement(metro).click();
         new WebDriverWait(driver, Duration.ofSeconds(10))
-                .until(ExpectedConditions.visibilityOfElementLocated(By.xpath(".//li[@data-index='" + id + "']")));
-        driver.findElement(By.xpath(".//li[@data-index='" + id + "']")).click();
+               .until(ExpectedConditions.visibilityOfElementLocated(indexMetro));
+        driver.findElement(indexMetro).click();
     }
 
     public void enterDataClientInForm(String fieldName, String fieldSurname, String fieldAddress, int id, String fieldPhone) {
@@ -113,8 +119,16 @@ class FormClientData {
         driver.findElement(buttonYesConfirmOrder).click();
     }
 
-    public void okOrder (){
-        driver.findElement(By.className("Order_ModalHeader__3FDaJ"));
+    public void okOrder () {
+        driver.findElement(okButton).click();
+    }
+
+    public void foundBookingOrder () {
+        new WebDriverWait(driver, Duration.ofSeconds(10))
+                .until(ExpectedConditions.visibilityOfElementLocated(bookingScooter));
+        String booking = driver.findElement(bookingScooter).getText();
+        String expectedText = "Заказ оформлен";
+        MatcherAssert.assertThat("Оформление заказа не подтверждено",booking,containsString(expectedText));
     }
 }
 

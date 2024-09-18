@@ -5,7 +5,6 @@ import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-
 import static org.junit.Assert.assertEquals;
 
 @RunWith(Parameterized.class)
@@ -15,8 +14,6 @@ public class ErrorFormOrderTest {
     public static WebDriver driver;
     private final By field;
     private final String textError;
-
-    private By cookieButton = By.id("rcc-confirm-button");
 
     public ErrorFormOrderTest(By field, String textError) {
         this.field = field;
@@ -42,14 +39,14 @@ public class ErrorFormOrderTest {
         StartPage startPage = new StartPage();
         startPage.initDriver();
         driver = startPage.getDriver();
+        driver.get(Constants.BASE_URL);
+        startPage.closeCookieMessage();
     }
 
     @Test
 
     public void checkErrorForEmpty() {
-        driver.get("https://qa-scooter.praktikum-services.ru/");
-
-        Elements buttonOrder = new Elements(driver);
+        ButtonOrder buttonOrder = new ButtonOrder(driver);
         buttonOrder.clickOrderHeader();
 
         FormClientData formClientData = new FormClientData(driver);
@@ -62,11 +59,7 @@ public class ErrorFormOrderTest {
     @Test
 
     public void checkErrorForInputLatin() {
-        driver.get("https://qa-scooter.praktikum-services.ru/");
-
-        driver.findElement(cookieButton).click(); // закрыть куки
-
-        Elements buttonOrder = new Elements(driver);
+        ButtonOrder buttonOrder = new ButtonOrder(driver);
         buttonOrder.clickOrderHeader();
 
         FormClientData formClientData = new FormClientData(driver);
