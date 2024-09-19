@@ -31,6 +31,7 @@ public class CheckButtonOrderOnFirstPageTest {
 
         ButtonOrderOnFirstPage buttonOrder = new ButtonOrderOnFirstPage(driver);
         buttonOrder.clickOrderMiddle();
+        buttonOrder.closeCookieMessage();
         buttonOrder.openFormOrder();
     }
 

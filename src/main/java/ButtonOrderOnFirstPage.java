@@ -11,11 +11,16 @@ class ButtonOrderOnFirstPage {
     private By buttonOrderHeader = By.xpath("//*[@id=\"root\"]//div[2]/button[1]");
     private By buttonOrderMiddle = By.className("Button_Middle__1CSJM");
     private By formScooterFor = By.className("Order_Header__BZXOb");
+    private By cookieButton = By.id("rcc-confirm-button");
 
     String expected = "Для кого самокат";
 
     public ButtonOrderOnFirstPage(WebDriver driver) {
         this.driver = driver;
+    }
+
+    public void closeCookieMessage () {
+        driver.findElement(cookieButton).click();
     }
 
     public void openFormOrder (){
