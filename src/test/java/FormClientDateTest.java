@@ -33,20 +33,22 @@ public class FormClientDateTest {
 
     @Before
     public void initDriver() {
-        StartPage startPage = new StartPage();
-        startPage.initDriver();
-        driver = startPage.getDriver();
-        driver.get(Constants.BASE_URL);
-        startPage.closeCookieMessage();
+        ControlStartDriver controlStartDriver = new ControlStartDriver();
+        controlStartDriver.initDriver();
+        driver = controlStartDriver.getDriver();
     }
 
     @Test
 
     public void orderScooterSheSmashTest() {
-        ButtonOrder buttonOrder = new ButtonOrder(driver);
+        driver.get(Constants.BASE_URL);
+
+        ButtonOrderOnFirstPage buttonOrder = new ButtonOrderOnFirstPage(driver);
         buttonOrder.clickOrderHeader();
 
         FormClientData formClientData = new FormClientData(driver);
+        formClientData.closeCookieMessage();
+
         formClientData.enterDataClientInForm(name,surname,address,indMetro,phone);
 
         formClientData.clickButtonOnwards();

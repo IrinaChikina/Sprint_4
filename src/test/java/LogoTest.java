@@ -11,12 +11,12 @@ import static org.junit.Assert.assertTrue;
 
 public class LogoTest {
     private WebDriver driver;
-    StartPage startPage = new StartPage();
+    ControlStartDriver controlStartDriver = new ControlStartDriver();
 
     @Before
     public void initDriver() {
-        startPage.initDriver();
-        driver = startPage.getDriver();
+        controlStartDriver.initDriver();
+        driver = controlStartDriver.getDriver();
     }
 
     @Test

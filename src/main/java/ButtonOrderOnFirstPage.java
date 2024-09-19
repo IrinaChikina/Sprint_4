@@ -4,7 +4,7 @@ import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
-class ButtonOrder  {
+class ButtonOrderOnFirstPage {
 
     private final WebDriver driver;
 
@@ -14,7 +14,7 @@ class ButtonOrder  {
 
     String expected = "Для кого самокат";
 
-    public ButtonOrder(WebDriver driver) {
+    public ButtonOrderOnFirstPage(WebDriver driver) {
         this.driver = driver;
     }
 

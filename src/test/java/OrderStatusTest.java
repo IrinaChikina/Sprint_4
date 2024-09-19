@@ -6,12 +6,12 @@ import org.openqa.selenium.WebDriver;
  public class OrderStatusTest {
     private WebDriver driver;
     
-    StartPage startPage = new StartPage();
+    ControlStartDriver controlStartDriver = new ControlStartDriver();
     
     @Before 
     public void initDriver() {
-        startPage.initDriver();
-    driver = startPage.getDriver();
+        controlStartDriver.initDriver();
+    driver = controlStartDriver.getDriver();
     }
 
     @Test

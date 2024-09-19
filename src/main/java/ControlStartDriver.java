@@ -1,15 +1,12 @@
 import io.github.bonigarcia.wdm.WebDriverManager;
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxOptions;
 import java.time.Duration;
 
-public class StartPage  {
+public class ControlStartDriver {
     public WebDriver driver;
-
-    public By cookieButton = By.id("rcc-confirm-button");
 
     public WebDriver getDriver() {
         return driver;
@@ -36,10 +33,6 @@ public class StartPage  {
             driver = new FirefoxDriver(opts);
             driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(5));
         }
-
-    public void closeCookieMessage (){
-        driver.findElement(cookieButton).click();
-    }
 }
 
 

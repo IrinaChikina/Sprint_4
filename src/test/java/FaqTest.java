@@ -41,17 +41,18 @@ public class FaqTest {
 
     @Before
     public void initDriver() {
-        StartPage startPage = new StartPage();
-        startPage.initDriver();
-        driver = startPage.getDriver();
-        driver.get(Constants.BASE_URL);
-        startPage.closeCookieMessage();
+        ControlStartDriver controlStartDriver = new ControlStartDriver();
+        controlStartDriver.initDriver();
+        driver = controlStartDriver.getDriver();
     }
 
     @Test
 
     public void responseTextTest() {
+        driver.get(Constants.BASE_URL);
+
         FaqPage faqPage = new FaqPage(driver);
+        faqPage.closeCookieMessage();
 
         WebElement element = driver.findElement(faqPage.indAccordionHeading(id));
         ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView();", element); // скрол до вопроса fiq
